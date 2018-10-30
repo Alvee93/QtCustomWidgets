@@ -11,14 +11,14 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Filter Items</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QComboBox" name="comboBox_cameraMake">
         <property name="currentText">
          <string>Camera Make</string>
         </property>
@@ -30,7 +30,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox_2">
+       <widget class="QComboBox" name="comboBox_location">
         <item>
          <property name="text">
           <string>Location</string>
@@ -39,7 +39,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox_3">
+       <widget class="QComboBox" name="comboBox_weather">
         <item>
          <property name="text">
           <string>Weather</string>
@@ -48,7 +48,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox_4">
+       <widget class="QComboBox" name="comboBox_person">
         <item>
          <property name="text">
           <string>Person</string>
@@ -57,7 +57,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox_5">
+       <widget class="QComboBox" name="comboBox_event">
         <item>
          <property name="text">
           <string>Event</string>
@@ -83,7 +83,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="filterButton">
         <property name="text">
          <string>Filter</string>
         </property>
