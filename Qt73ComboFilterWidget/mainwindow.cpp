@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-QString final_query;
+//QString final_query;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -37,13 +37,45 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_filterButton_clicked()
 {
-    QString c_make = ui->comboBox_cameraMake->currentText();
-    QString location = ui->comboBox_location->currentText();
-    QString weather = ui->comboBox_weather->currentText();
-    QString person = ui->comboBox_person->currentText();
-    QString event = ui->comboBox_event->currentText();
+    QString final_query = "SELECT path from images WHERE ";
+    QString c_make, location, weather, person, event;
+    bool filter_selected = false;
 
-    final_query = "SELECT path from images WHERE make = " + c_make + " AND location = " + location + " AND weather = " + weather + " AND person = " + person + " AND event = " + event ;
+    if(ui->comboBox_cameraMake->currentIndex() !=0){
+        c_make = ui->comboBox_cameraMake->currentText();
+        final_query = final_query + "make = " + c_make + " AND ";
+        filter_selected = true;
+    }
+    if(ui->comboBox_location->currentIndex() !=0){
+        location = ui->comboBox_location->currentText();
+        final_query = final_query + "location = " + location + " AND ";
+        filter_selected = true;
+    }
+    if(ui->comboBox_weather->currentIndex() !=0){
+        weather = ui->comboBox_weather->currentText();
+        final_query = final_query + "weather = " + weather + " AND ";
+        filter_selected = true;
+    }
+    if(ui->comboBox_person->currentIndex() !=0){
+        person = ui->comboBox_person->currentText();
+        final_query = final_query + "person = " + person + " AND ";
+        filter_selected = true;
+    }
+    if(ui->comboBox_event->currentIndex() !=0){
+        event = ui->comboBox_event->currentText();
+        final_query = final_query + "event = " + event + " AND ";
+        filter_selected = true;
+    }
+
+    else if(filter_selected) {
+        final_query = final_query.remove((final_query.size())-5, 5);
+    }
+
+    else{
+        final_query = final_query + "1 = 1";
+    }
+    //final_query = "SELECT path from images WHERE make = " + c_make + " AND location = " + location + " AND weather = " + weather + " AND person = " + person + " AND event = " + event
+    //        + " AND";
 
     ui->label->setText(final_query);
 }
