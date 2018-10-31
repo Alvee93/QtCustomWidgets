@@ -43,7 +43,7 @@ void MainWindow::on_filterButton_clicked()
     QString person = ui->comboBox_person->currentText();
     QString event = ui->comboBox_event->currentText();
 
-    final_query = c_make + " " + location + " " + weather + " " + person + " " + event ;
+    final_query = "SELECT path from images WHERE make = " + c_make + " AND location = " + location + " AND weather = " + weather + " AND person = " + person + " AND event = " + event ;
 
     ui->label->setText(final_query);
 }
