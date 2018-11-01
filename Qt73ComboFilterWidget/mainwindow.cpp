@@ -19,30 +19,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     show_comboMake();
-    /*QStringList cameraMakes;
-    cameraMakes << "Samsung" << "Microsoft" << "Nikon" << "Nokia";
-    ui->comboBox_cameraMake->addItems(cameraMakes);
-*/
+
     show_comboLocation();
-    /*QStringList locations;
-    locations << "Cox's Bazar" << "Himchori" << "Dhaka" << "Rajshahi";
-    ui->comboBox_location->addItems(locations);
-*/
+
     show_comboWeather();
-    /*QStringList weathers;
-    weathers << "Sunshine" << "Haze" << "Cloudy" << "Snowy";
-    ui->comboBox_weather->addItems(weathers);
-*/
+
     show_comboPerson();
-    /*QStringList persons;
-    persons << "Alvee" << "Nishita" << "Prottoy" << "Mahin";
-    ui->comboBox_person->addItems(persons);
-*/
+
     show_comboEvent();
-    /*QStringList events;
-    events << "Vaccation" << "Office Work" << "Home Relax" << "Lunch Out";
-    ui->comboBox_event->addItems(events);
-*/
 }
 
 MainWindow::~MainWindow()
