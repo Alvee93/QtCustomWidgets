@@ -1,7 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "dbmanager.h"
+
+#include <QSqlQueryModel>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QSqlRecord>
+#include <QDebug>
 
 //QString final_query;
+static const QString path = "m_managerV04.sqlite";
+DbManager db(path);
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -9,25 +18,31 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QStringList cameraMakes;
+    show_comboMake();
+    /*QStringList cameraMakes;
     cameraMakes << "Samsung" << "Microsoft" << "Nikon" << "Nokia";
     ui->comboBox_cameraMake->addItems(cameraMakes);
-
-    QStringList locations;
+*/
+    show_comboLocation();
+    /*QStringList locations;
     locations << "Cox's Bazar" << "Himchori" << "Dhaka" << "Rajshahi";
     ui->comboBox_location->addItems(locations);
-
-    QStringList weathers;
+*/
+    show_comboWeather();
+    /*QStringList weathers;
     weathers << "Sunshine" << "Haze" << "Cloudy" << "Snowy";
     ui->comboBox_weather->addItems(weathers);
-
-    QStringList persons;
+*/
+    show_comboPerson();
+    /*QStringList persons;
     persons << "Alvee" << "Nishita" << "Prottoy" << "Mahin";
     ui->comboBox_person->addItems(persons);
-
-    QStringList events;
+*/
+    show_comboEvent();
+    /*QStringList events;
     events << "Vaccation" << "Office Work" << "Home Relax" << "Lunch Out";
     ui->comboBox_event->addItems(events);
+*/
 }
 
 MainWindow::~MainWindow()
@@ -78,4 +93,79 @@ void MainWindow::on_filterButton_clicked()
     //        + " AND";
 
     ui->label->setText(final_query);
+}
+
+void MainWindow::show_comboMake()
+{
+    QSqlQueryModel *modal = new QSqlQueryModel;
+    QSqlQuery query;
+    bool success = false;
+    query.prepare("SELECT DISTINCT make FROM images");
+    success = query.exec();
+    if(!success){
+        qDebug() << "Fetching make failed: " << query.lastError();
+    }
+
+    modal->setQuery(query);
+    ui->comboBox_cameraMake->setModel(modal);
+}
+
+void MainWindow::show_comboLocation()
+{
+    QSqlQueryModel *modal = new QSqlQueryModel;
+    QSqlQuery query;
+    bool success = false;
+    query.prepare("SELECT DISTINCT location FROM images");
+    success = query.exec();
+    if(!success){
+        qDebug() << "Fetching make failed: " << query.lastError();
+    }
+
+    modal->setQuery(query);
+    ui->comboBox_location->setModel(modal);
+}
+
+void MainWindow::show_comboWeather()
+{
+    QSqlQueryModel *modal = new QSqlQueryModel;
+    QSqlQuery query;
+    bool success = false;
+    query.prepare("SELECT DISTINCT weather_status FROM images");
+    success = query.exec();
+    if(!success){
+        qDebug() << "Fetching make failed: " << query.lastError();
+    }
+
+    modal->setQuery(query);
+    ui->comboBox_weather->setModel(modal);
+}
+
+void MainWindow::show_comboPerson()
+{
+    QSqlQueryModel *modal = new QSqlQueryModel;
+    QSqlQuery query;
+    bool success = false;
+    query.prepare("SELECT DISTINCT person FROM images");
+    success = query.exec();
+    if(!success){
+        qDebug() << "Fetching make failed: " << query.lastError();
+    }
+
+    modal->setQuery(query);
+    ui->comboBox_person->setModel(modal);
+}
+
+void MainWindow::show_comboEvent()
+{
+    QSqlQueryModel *modal = new QSqlQueryModel;
+    QSqlQuery query;
+    bool success = false;
+    query.prepare("SELECT DISTINCT event FROM images");
+    success = query.exec();
+    if(!success){
+        qDebug() << "Fetching make failed: " << query.lastError();
+    }
+
+    modal->setQuery(query);
+    ui->comboBox_event->setModel(modal);
 }
