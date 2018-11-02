@@ -41,41 +41,64 @@ void MainWindow::on_filterButton_clicked()
     bool filter_selected = false;
 
     if(ui->comboBox_cameraMake->currentText() != ""){ // ui->comboBox_cameraMake->currentIndex() !=0
-        c_make = ui->comboBox_cameraMake->currentText();
-        final_query = final_query + "make = " + c_make + " AND ";
+        c_make = ui->comboBox_cameraMake->currentText(); // the variable contains the comBo text
+        final_query = final_query + "make = (:make)" + " AND ";
         filter_selected = true;
     }
     if(ui->comboBox_location->currentText() != ""){
         location = ui->comboBox_location->currentText();
-        final_query = final_query + "location = " + location + " AND ";
+        final_query = final_query + "location = (:location)" + " AND ";
         filter_selected = true;
     }
     if(ui->comboBox_weather->currentText() != ""){
         weather = ui->comboBox_weather->currentText();
-        final_query = final_query + "weather = " + weather + " AND ";
+        final_query = final_query + "weather_status = (:weather)" + " AND ";
         filter_selected = true;
     }
     if(ui->comboBox_person->currentText() !=""){
         person = ui->comboBox_person->currentText();
-        final_query = final_query + "person = " + person + " AND ";
+        final_query = final_query + "person = (:person)" + " AND ";
         filter_selected = true;
     }
     if(ui->comboBox_event->currentText() != ""){
         event = ui->comboBox_event->currentText();
-        final_query = final_query + "event = " + event + " AND ";
+        final_query = final_query + "event = (:event)" + " AND ";
         filter_selected = true;
     }
 
     if(filter_selected) {
         //qDebug() << "Entered the AND removal";
         final_query = final_query.remove((final_query.size())-5, 5);
+        // final_query = SELECT path from images WHERE make = (:make) AND location = (:location)
+        // AND weather_status = (:weather) AND person = (:person) AND event = (:event)
+
+        QSqlQueryModel *modal = new QSqlQueryModel;
+        QSqlQuery query;
+        bool success = false;
+        query.prepare(final_query);
+        query.bindValue(":make", c_make);
+        query.bindValue(":location", location);
+        query.bindValue(":weather", weather);
+        query.bindValue(":person", person);
+        query.bindValue(":event", event);
+        success = query.exec();
+
+        if (query.exec())
+        {
+           if (query.next())
+           {
+                modal->setQuery(query);
+                ui->listView_2->setModel(modal);   // it exists
+           }
+        }
+        else if(!success){
+            qDebug() << "Filter query failed: " << query.lastError();
+        }
     }
 
     else{
         final_query = final_query + "1 = 1";
     }
-    //final_query = "SELECT path from images WHERE make = " + c_make + " AND location = " + location + " AND weather = " + weather + " AND person = " + person + " AND event = " + event
-    //        + " AND";
 
     ui->label->setText(final_query);
 }
