@@ -40,33 +40,34 @@ void MainWindow::on_filterButton_clicked()
     QString c_make, location, weather, person, event;
     bool filter_selected = false;
 
-    if(ui->comboBox_cameraMake->currentIndex() !=0){
+    if(ui->comboBox_cameraMake->currentText() != ""){ // ui->comboBox_cameraMake->currentIndex() !=0
         c_make = ui->comboBox_cameraMake->currentText();
         final_query = final_query + "make = " + c_make + " AND ";
         filter_selected = true;
     }
-    if(ui->comboBox_location->currentIndex() !=0){
+    if(ui->comboBox_location->currentText() != ""){
         location = ui->comboBox_location->currentText();
         final_query = final_query + "location = " + location + " AND ";
         filter_selected = true;
     }
-    if(ui->comboBox_weather->currentIndex() !=0){
+    if(ui->comboBox_weather->currentText() != ""){
         weather = ui->comboBox_weather->currentText();
         final_query = final_query + "weather = " + weather + " AND ";
         filter_selected = true;
     }
-    if(ui->comboBox_person->currentIndex() !=0){
+    if(ui->comboBox_person->currentText() !=""){
         person = ui->comboBox_person->currentText();
         final_query = final_query + "person = " + person + " AND ";
         filter_selected = true;
     }
-    if(ui->comboBox_event->currentIndex() !=0){
+    if(ui->comboBox_event->currentText() != ""){
         event = ui->comboBox_event->currentText();
         final_query = final_query + "event = " + event + " AND ";
         filter_selected = true;
     }
 
-    else if(filter_selected) {
+    if(filter_selected) {
+        //qDebug() << "Entered the AND removal";
         final_query = final_query.remove((final_query.size())-5, 5);
     }
 
@@ -78,6 +79,8 @@ void MainWindow::on_filterButton_clicked()
 
     ui->label->setText(final_query);
 }
+
+//populating the comboBoxes
 
 void MainWindow::show_comboMake()
 {
