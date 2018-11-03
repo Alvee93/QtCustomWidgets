@@ -24,6 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     show_comboWeather();
 
+    show_comboDaylight();
+
     show_comboPerson();
 
     show_comboEvent();
@@ -37,7 +39,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_filterButton_clicked()
 {
     QString final_query = "SELECT path from images WHERE ";
-    QString c_make, location, weather, person, event;
+    QString c_make, location, weather, daylight, person, event;
     bool filter_selected = false;
 
     if(ui->comboBox_cameraMake->currentText() != ""){ // ui->comboBox_cameraMake->currentIndex() !=0
@@ -53,6 +55,11 @@ void MainWindow::on_filterButton_clicked()
     if(ui->comboBox_weather->currentText() != ""){
         weather = ui->comboBox_weather->currentText();
         final_query = final_query + "weather_status = (:weather)" + " AND ";
+        filter_selected = true;
+    }
+    if(ui->comboBox_daylight->currentText() != ""){
+        daylight = ui->comboBox_daylight->currentText();
+        final_query = final_query + "daylight_status = (:daylight_status)" + " AND ";
         filter_selected = true;
     }
     if(ui->comboBox_person->currentText() !=""){
@@ -79,6 +86,7 @@ void MainWindow::on_filterButton_clicked()
         query.bindValue(":make", c_make);
         query.bindValue(":location", location);
         query.bindValue(":weather", weather);
+        query.bindValue(":daylight_status", daylight);
         query.bindValue(":person", person);
         query.bindValue(":event", event);
         success = query.exec();
@@ -113,7 +121,7 @@ void MainWindow::show_comboMake()
     query.prepare("SELECT DISTINCT make FROM images");
     success = query.exec();
     if(!success){
-        qDebug() << "Fetching make failed: " << query.lastError();
+        qDebug() << "Fetching makes failed: " << query.lastError();
     }
 
     modal->setQuery(query);
@@ -128,7 +136,7 @@ void MainWindow::show_comboLocation()
     query.prepare("SELECT DISTINCT location FROM images");
     success = query.exec();
     if(!success){
-        qDebug() << "Fetching make failed: " << query.lastError();
+        qDebug() << "Fetching locations failed: " << query.lastError();
     }
 
     modal->setQuery(query);
@@ -143,11 +151,26 @@ void MainWindow::show_comboWeather()
     query.prepare("SELECT DISTINCT weather_status FROM images");
     success = query.exec();
     if(!success){
-        qDebug() << "Fetching make failed: " << query.lastError();
+        qDebug() << "Fetching weathers failed: " << query.lastError();
     }
 
     modal->setQuery(query);
     ui->comboBox_weather->setModel(modal);
+}
+
+void MainWindow::show_comboDaylight()
+{
+    QSqlQueryModel *modal = new QSqlQueryModel;
+    QSqlQuery query;
+    bool success = false;
+    query.prepare("SELECT DISTINCT daylight_status FROM images");
+    success = query.exec();
+    if(!success){
+        qDebug() << "Fetching daylights failed: " << query.lastError();
+    }
+
+    modal->setQuery(query);
+    ui->comboBox_daylight->setModel(modal);
 }
 
 void MainWindow::show_comboPerson()
@@ -158,7 +181,7 @@ void MainWindow::show_comboPerson()
     query.prepare("SELECT DISTINCT person FROM images");
     success = query.exec();
     if(!success){
-        qDebug() << "Fetching make failed: " << query.lastError();
+        qDebug() << "Fetching persons failed: " << query.lastError();
     }
 
     modal->setQuery(query);
@@ -173,7 +196,7 @@ void MainWindow::show_comboEvent()
     query.prepare("SELECT DISTINCT event FROM images");
     success = query.exec();
     if(!success){
-        qDebug() << "Fetching make failed: " << query.lastError();
+        qDebug() << "Fetching events failed: " << query.lastError();
     }
 
     modal->setQuery(query);
