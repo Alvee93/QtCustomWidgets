@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "dbmanager.h"
+#include "dbmanager.h" // for managing the db functionalities
 
 #include <QSqlQueryModel>
 #include <QSqlQuery>
