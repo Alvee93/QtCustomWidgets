@@ -77,3 +77,8 @@ void MainWindow::on_pushButtonBrowse_clicked()
 
     myfile.close();
 }
+
+// new_function_to_write (int i, string make, string model){
+    //if (i==0) create new file and do actions
+    // else {} // edit
+//}
